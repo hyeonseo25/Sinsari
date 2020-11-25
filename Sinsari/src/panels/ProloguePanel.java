@@ -28,7 +28,7 @@ public class ProloguePanel extends JPanel{
 
 	public ProloguePanel(Object o) {
 		page = 0;
-		Image nextButton = new ImageIcon("images/buttons/arrowButton.png").getImage();
+		Image nextButton = new ImageIcon("images/buttons/ArrowButton.png").getImage();
 		Image startButton = new ImageIcon("images/buttons/StartButton.png").getImage();
 		
 		nextbt = new JButton(new ImageIcon(nextButton));

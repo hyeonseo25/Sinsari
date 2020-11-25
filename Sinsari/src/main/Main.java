@@ -77,11 +77,10 @@ public class Main extends ListenerAdapter{
 			frame.getContentPane().remove(prologuePanel); // 방금 했던 프롤로그 패널을 프레임에서 삭제
 			prologuePanel = new ProloguePanel(this); // 새 프롤로그 패널 생성
 			prologuePanel.setLayout(null);
-			// prologuePanel.gameStart();
 			frame.getContentPane().add(prologuePanel, "prologue");
 			cl.show(frame.getContentPane(), "prologue"); // prologue패널을 카드레이아웃 최상단으로 변경
 			prologuePanel.requestFocus(); // 리스너를 prologue패널에 강제로 줌
-			
+			startPanel.closeMusic();
 		} else if (e.getComponent().getName().equals("GameStartButton")) { // GameoverButton이라는 이름을 가진 버튼을 눌렀다면
 			frame.getContentPane().remove(gamePanel); // 방금 했던 게임 패널을 프레임에서 삭제
 			gamePanel = new GamePanel(this); // 새 게임 패널 생성
@@ -98,6 +97,7 @@ public class Main extends ListenerAdapter{
 		} else if (e.getComponent().getName().equals("ReplayButton")) { // ReplayButton이라는 이름을 가진 버튼을 눌렀다면
 			cl.show(frame.getContentPane(), "start"); // start패널을 카드레이아웃 최상단으로 변경
 			startPanel.requestFocus(); // 리스너를 start패널에 강제로 줌
+			startPanel.playMusic();
 		} else if (e.getComponent().getName().equals("ExitButton")) { // ExitButton이라는 이름을 가진 버튼을 눌렀다면
 			System.exit(0); 	
 		}
