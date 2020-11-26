@@ -284,7 +284,7 @@ public class GamePanel extends JPanel{
 						}else {
 							player.p_moveRight();
 						}
-						Thread.sleep(40);
+						Thread.sleep(20);
 					}catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -431,7 +431,7 @@ public class GamePanel extends JPanel{
 		
 	//패널 전용 스레드
 	public void movebg() {
-		backX -=10;
+		backX -=1;
 		
 		// 아이템 위치를 -10 씩 해준다. (왼쪽으로 흐르는 효과)
 		for (int i = 0; i < itemList.size(); i++) {
