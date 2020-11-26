@@ -143,11 +143,10 @@ public class Player {
 	
 	//player 오른쪽으로 이동 (key)
 	public void p_moveRight() {
-		if(cnt == images.length) {
-			cnt = 0;
-		}
-		setImage(images[cnt]);
-		cnt++;
+//		if(cnt == images.length) {
+//			cnt = 0;
+//		}
+//		cnt++;
 		if(distance < back.getWidth(null)-130) {
 			x += 15;
 			distance += 15;
@@ -156,11 +155,11 @@ public class Player {
 	
 	// 화면 중간에서 오른쪽 이동(key)
 	public void p_moveRight(int num) {
-		if(cnt == images.length) {
-			cnt = 0;
-		}
-		setImage(images[cnt]);
-		cnt++;
+//		if(cnt == images.length) {
+//			cnt = 0;
+//		}
+//		setImage(images[cnt]);
+//		cnt++;
 		distance += 10;
 	}
 	
@@ -295,10 +294,10 @@ public class Player {
 	public Player(JPanel main){
 		this.mainPanel = main;
 		setX(200);
-		setY(600);
+		setY(300);
 		setDistance(200);
 		setScore(0);
 		setInvincibility(255);
-		setImage(new ImageIcon("images/Player/Player1.png").getImage());
+		setImage(new ImageIcon("images/Player/Player.gif").getImage());
 	}
 }
