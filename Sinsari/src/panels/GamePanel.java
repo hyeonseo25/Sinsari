@@ -272,8 +272,12 @@ public class GamePanel extends JPanel{
 				// TODO Auto-generated method stub
 				while(true) {
 					try {
+						System.out.println(player.getDistance());
 						if(player.getDistance()>end) {
 							clear();
+							break;
+						}
+						if(player.getHp()<=0) {
 							break;
 						}
 						if(player.getDistance()>back.getWidth(null)-(view.width-700)) {
