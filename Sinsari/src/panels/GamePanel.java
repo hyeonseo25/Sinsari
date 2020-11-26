@@ -272,7 +272,6 @@ public class GamePanel extends JPanel{
 				// TODO Auto-generated method stub
 				while(true) {
 					try {
-						System.out.println(player.getDistance());
 						if(player.getDistance()>end) {
 							clear();
 							break;
