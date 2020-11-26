@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import panels.ClearPanel;
 import panels.GameOverPanel;
@@ -34,6 +33,18 @@ public class Main extends ListenerAdapter{
 		init();
 	}
 	
+	public ClearPanel getClearPanel() {
+		return clearPanel;
+	}
+	
+	public GameOverPanel getGameOverPanel() {
+		return gameOverPanel;
+	}
+	
+	public CardLayout getCl() {
+		return cl;
+	}
+	
 	private void init() {
 		frame = new JFrame();
 		frame.setTitle("달토끼의 떡볶이"); // 프로그램 이름 지정
@@ -48,7 +59,7 @@ public class Main extends ListenerAdapter{
 		// 패널에 main에 있는 리스너를 넣어줌
 		startPanel = new StartPanel(this); 
 		prologuePanel = new ProloguePanel(this);
-		gamePanel = new GamePanel(this/*, frame, cl*/); // 새 게임 패널 생성
+		gamePanel = new GamePanel(this, frame, cl); // 새 게임 패널 생성
 		gameOverPanel = new GameOverPanel(this);
 		clearPanel = new ClearPanel(this);	
 		
@@ -83,18 +94,19 @@ public class Main extends ListenerAdapter{
 			startPanel.closeMusic();
 		} else if (e.getComponent().getName().equals("GameStartButton")) { // GameoverButton이라는 이름을 가진 버튼을 눌렀다면
 			frame.getContentPane().remove(gamePanel); // 방금 했던 게임 패널을 프레임에서 삭제
-			gamePanel = new GamePanel(this); // 새 게임 패널 생성
+			gamePanel = new GamePanel(this, frame, cl); // 새 게임 패널 생성
 			gamePanel.setLayout(null);
+			gamePanel.gameStart(); // 게임 시작 메서드 실행
 			frame.getContentPane().add(gamePanel, "game");
 			cl.show(frame.getContentPane(), "game"); // game패널을 카드레이아웃 최상단으로 변경
 			gamePanel.requestFocus(); // 리스너를 game패널에 강제로 줌
-		} else if (e.getComponent().getName().equals("GameoverButton")) { // GameoverButton이라는 이름을 가진 버튼을 눌렀다면
-			cl.show(frame.getContentPane(), "gameover"); // gameover패널을 카드레이아웃 최상단으로 변경
-			gameOverPanel.requestFocus(); // 리스너를 gameOver패널에 강제로 줌
-		} else if (e.getComponent().getName().equals("ClearButton")) { // ClearButton이라는 이름을 가진 버튼을 눌렀다면
-			cl.show(frame.getContentPane(), "clear"); // clear패널을 카드레이아웃 최상단으로 변경
-			clearPanel.requestFocus(); // 리스너를 clear패널에 강제로 줌	
-		} else if (e.getComponent().getName().equals("ReplayButton")) { // ReplayButton이라는 이름을 가진 버튼을 눌렀다면
+		} else if (e.getComponent().getName().equals("GameOverReplayButton")) { // GameoverButton이라는 이름을 가진 버튼을 눌렀다면
+			gameOverPanel.closeMusic();
+			cl.show(frame.getContentPane(), "start"); // start패널을 카드레이아웃 최상단으로 변경
+			startPanel.requestFocus(); // 리스너를 start패널에 강제로 줌
+			startPanel.playMusic();
+		} else if (e.getComponent().getName().equals("ClearReplayButton")) { // ClearButton이라는 이름을 가진 버튼을 눌렀다면
+			clearPanel.closeMusic();
 			cl.show(frame.getContentPane(), "start"); // start패널을 카드레이아웃 최상단으로 변경
 			startPanel.requestFocus(); // 리스너를 start패널에 강제로 줌
 			startPanel.playMusic();

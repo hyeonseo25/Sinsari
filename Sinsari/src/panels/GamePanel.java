@@ -24,11 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import components.GunMonster;
-import components.Monster;
-import components.MonsterThread;
 import components.Player;
-import components.Shot;
 import components.Field;
 import components.Tacle;
 import components.Item;
@@ -36,14 +32,6 @@ import main.Main;
 import util.Util;
 
 public class GamePanel extends JPanel{
-	private boolean keyLeft = false;
-	private boolean keyRight = false;
-	private boolean keyEnter = false;
-	private int cnt=5; // 총알에 딜레이 주기 위한 cnt
-	
-	//시간 뒷 배경
-	private ImageIcon textBackImage1 = new ImageIcon("images/backImage.png");
-	private Image textBackImg1 = textBackImage1.getImage();
 	
 	// 점수 뒷 배경
 	private ImageIcon textBackImage2 = new ImageIcon("images/backImage2.png");
@@ -74,9 +62,6 @@ public class GamePanel extends JPanel{
 	private ImageIcon item2Ic = new ImageIcon("images/map/찐만두.png");
 	private ImageIcon item3Ic = new ImageIcon("images/map/포켓치킨.png");
 	private ImageIcon itemHPIc = new ImageIcon("images/HP.png");
-		
-	private int[] monsterSpawnpoint = {2250,2500,3350,4000,4190,4520,5570,5990,6080,6560,8240,8880,9460,10520,10760,11130,11430}; //몬스터 스폰 위치
-	private int nowMonster = 0; // 지금까지 스폰된 몬스터의 수
 	
 	// 화면 사이즈 받아오기 
 	private Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
@@ -84,8 +69,6 @@ public class GamePanel extends JPanel{
 	private int field = 800;
 	
 	private int backX = 0;
-
-	private String endTime; //게임 클리어 시간
 	
 	// 리스트 생성
 	private List<Item> itemList; // 아이템 리스트
@@ -99,27 +82,14 @@ public class GamePanel extends JPanel{
 	private int end = back.getWidth(null)-(view.width-1660); // 도착지
 	
 	private Player player;
-	private Monster monster;
-	private util.Timer time;
 	
 	// 다른 클래스 변수들
 	private JFrame frame;
 	private CardLayout cl;
 	private Main main;
 	
-	public String getTime() {
-		if (Integer.valueOf(time.getSeconds()) < 0) {
-			gameOver();
-		}
-		return time.getSeconds() + "초";
-	}
-	
 	public String getScore1() {
 		return Integer.toString(player.getScore());
-	}
-	
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
 	}
 	
 	public int getField() {
@@ -129,10 +99,7 @@ public class GamePanel extends JPanel{
 	public void setField(int field) {
 		this.field = field;
 	}
-
-	public String getEndTime() {
-		return this.endTime;
-	}
+	
 	public String getScore() {
 		return Integer.toString(player.getScore()) + "점";
 	}
@@ -156,15 +123,10 @@ public class GamePanel extends JPanel{
 	}
 	
 	public void gameStart() {
-		time = new util.Timer();
-		time.start();
 		player = new Player(this);
-
 		player.fall(); // field 위에 플레이어가 있으면 떨어지게
-		player.deleteShot(); // 화면 밖으로 나간 총알을 없애는 메서드
-		monster = new Monster(player);
-		monster.createMonsters(); // 프레임 생성시 Monster 객체들을 배열에 추가
-		setCpField();
+		player.setField(this.field);
+		playerRun();
 		repaintThread();
 		playMusic();
 	}
@@ -282,9 +244,6 @@ public class GamePanel extends JPanel{
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
 				switch(keyCode) {
-				case KeyEvent.VK_A: keyLeft = true; break;
-				case KeyEvent.VK_D: keyRight = true; break;
-				case KeyEvent.VK_ENTER: keyEnter = true; break;
 				case KeyEvent.VK_SPACE: 
 					if(player.getCountJump() < 2) {
 						player.jump();
@@ -296,43 +255,43 @@ public class GamePanel extends JPanel{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				switch(e.getKeyCode()) {
-				case KeyEvent.VK_A: keyLeft = false; player.stop();break;
-				case KeyEvent.VK_D: keyRight = false;  player.stop();break;
-				case KeyEvent.VK_ENTER: keyEnter = false; break;
+				//case KeyEvent.VK_ENTER: keyEnter = false; break;
 				}
 			}
 		});
 	}
 	
-	public void keyCheck() {
-		if(keyLeft==true) {				
-			player.p_moveLeft();
-			
-		}else if(keyRight==true) {
-			if(player.getDistance()+1100==monsterSpawnpoint[monster.getMonsterCnt()]&&nowMonster==monster.getMonsterCnt()) {
-				monsterSpawn();
-			}
-			if(player.getDistance()>end) {
-				clear();
-			}else if(player.getDistance()>back.getWidth(null)-(view.width-700)) {
-				player.p_moveRight();
-			}else if(player.getX()>700) {  // 플레이어가 중간을 넘으면
-				player.p_moveRight(1); // 매개변수는 오버로딩된 메서드를 실행 시키기 위함. 그 외 의미 없음
-				movebg();
-			}else {
-				player.p_moveRight();
-			}
-		}
+	public void keyCheck() {	
 		
-		if(keyEnter==true) {
-			if(cnt==5) {
-				Sound("music/shotSound.wav", false); // 총쏘는 소리
-				player.p_hit();
-				cnt = 0;
-			}
-		}
 	}
 	
+	public void playerRun() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				while(true) {
+					try {
+						if(player.getDistance()>end) {
+							clear();
+							break;
+						}
+						if(player.getDistance()>back.getWidth(null)-(view.width-700)) {
+							player.p_moveRight();
+						}else if(player.getX()>700) {  // 플레이어가 중간을 넘으면
+							player.p_moveRight(1); // 매개변수는 오버로딩된 메서드를 실행 시키기 위함. 그 외 의미 없음
+							movebg();
+						}else {
+							player.p_moveRight();
+						}
+						Thread.sleep(40);
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+	}
 	//몬스터가 움직임
 	public void repaintThread() {
 		new Thread(new Runnable() {
@@ -344,19 +303,14 @@ public class GamePanel extends JPanel{
 					
 					try {
 						keyCheck();
-						setObject();
-						if(cnt<5) {
-							cnt++; // 총알에 딜레이
-						}
-						
 						if(player.getY() - player.getImage().getHeight(null)>1100) {
 							player.setHp(0);
 						}
-						
 						if(player.getHp()<=0) {
 							gameOver();	
 							break;
 						}
+						setObject();	
 						Thread.sleep(40);
 					} catch(Exception e) {
 						e.printStackTrace();
@@ -371,23 +325,6 @@ public class GamePanel extends JPanel{
 			// TODO Auto-generated method stub
 			super.paintComponent(g);
 			g.drawImage(back, backX, 0, this);
-			ArrayList<Shot> list = player.getShots();
-			
-			// 몬스터 그리기 
-			for (int i = 0; i < monster.getMonsterList().size(); i++) {
-				if(monster.getMonsterList().get(i) instanceof GunMonster){
-					ArrayList<Shot> GunMonster_shotlist = ((GunMonster) monster.getMonsterList().get(i)).getShotList();
-					for(int j=0; j<GunMonster_shotlist.size();j++) {
-						g.drawImage(GunMonster_shotlist.get(j).getImage(), GunMonster_shotlist.get(j).getX(), GunMonster_shotlist.get(j).getY(), this);
-					}
-				}
-				g.drawImage(monster.getMonsterList().get(i).getImage(), monster.getMonsterList().get(i).getX(), monster.getMonsterList().get(i).getY(), this);
-			}
-			
-			// 총알 그리기
-			for(int i=0; i<list.size();i++) {
-				g.drawImage(list.get(i).getImage(), list.get(i).getX(), list.get(i).getY(), this);
-			}
 			
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) player.getInvincibility()/255));
@@ -431,12 +368,10 @@ public class GamePanel extends JPanel{
 			}
 			
 			// 글씨 잘보이게 하기 위한 흰 뒷 배경
-			g.drawImage(textBackImg1, (view.width/2 - textBackImg1.getWidth(null)/2), 11, this);
 			g.drawImage(textBackImg2, 1685, 11, this);
 			
 			Font font = new Font("돋움", Font.BOLD, 40);
 			g.setFont(font);  //타이머 글씨체
-			g.drawString(getTime(), (view.width/2 - textBackImg1.getWidth(null)/2) + 22, 50); // 타이머 그리기
 			g.drawString(getScore(), 1750, 50); // 점수 그리기
 		}
 		
@@ -491,16 +426,12 @@ public class GamePanel extends JPanel{
 					}
 				} // end of first if 
 			} //end of for  
-			setCpField(1); // 플레이어 필드 설정
-			setCpField(2); // 몬스터 필드 설정
+			setCpField(); // 플레이어 필드 설정
 	}
 		
 	//패널 전용 스레드
 	public void movebg() {
 		backX -=10;
-		for (int i = 0; i < monster.getMonsterList().size(); i++) {
-			monster.getMonsterList().get(i).m_move(15);	
-		}
 		
 		// 아이템 위치를 -10 씩 해준다. (왼쪽으로 흐르는 효과)
 		for (int i = 0; i < itemList.size(); i++) {
@@ -534,11 +465,7 @@ public class GamePanel extends JPanel{
 	
 	public void gameOver() {
 		closeMusic();
-		time.interrupt();
 		Sound("music/dieMusic.wav", false);
-		for (int i = 0; i < monster.getMonsterList().size(); i++) {
-			monster.getMonsterList().get(i).setPlayer(null);
-		}
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
@@ -552,82 +479,42 @@ public class GamePanel extends JPanel{
 	public void clear() {
 		closeMusic();
 		player.setDistance(200);
-		time.interrupt();
 		Sound("music/clearMusic.wav", false);
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		main.getClearPanel().playMusic();
 		main.getClearPanel().setName("이름을 입력해주세요");
-		player.setScore(player.getScore()+Integer.valueOf(time.getSeconds())*10+player.getHp()/200*100);
-		main.getClearPanel().setScore(player.getScore());
+		player.setScore(player.getScore()+player.getHp()/200*100);
+		//main.getClearPanel().setScore(player.getScore());
 		cl.show(frame.getContentPane(), "clear");
 		frame.requestFocus();
-		setEndTime(getTime()); //게임 클리어 시간
 	}
 	
-	// 컴포넌트 필드 초기 설정 (플레이어, 몬스터)
+	// 컴포넌트 필드  설정 (플레이어, 몬스터) 1이면 플레이어
 	public void setCpField() {
-		player.setField(this.field);
-		for (int i = 0; i < monster.getMonsterList().size(); i++) {
-			monster.getMonsterList().get(i).setField(this.field);
-		}
-	}
-	
-	// 컴포넌트 필드  설정 (플레이어, 몬스터) 1이면 플레이어, 2면 몬스터
-	public void setCpField(int cp) {
-		if(cp==1) {
-			int face = player.getX() + player.getImage().getWidth(null); // 캐릭터 정면 위치 재스캔
-			int foot = player.getY() + player.getImage().getHeight(null); // 캐릭터 발 위치 재스캔
-			
-			// 쿠키가 밟을 발판을 계산하는 코드
-			int tempField; // 발판위치를 계속 스캔하는 지역변수
-			int tempNowField=2000; // 캐릭터와 발판의 높이에 따라 저장되는 지역변수, 결과를 field에 저장한다
+		int face = player.getX() + player.getImage().getWidth(null); // 캐릭터 정면 위치 재스캔
+		int foot = player.getY() + player.getImage().getHeight(null); // 캐릭터 발 위치 재스캔
+		
+		// 쿠키가 밟을 발판을 계산하는 코드
+		int tempField; // 발판위치를 계속 스캔하는 지역변수
+		int tempNowField=2000; // 캐릭터와 발판의 높이에 따라 저장되는 지역변수, 결과를 field에 저장한다
 
-			for (int i = 0; i < fieldList.size(); i++) { // 발판의 개수만큼 반복
-				int tempX = fieldList.get(i).getX(); // 발판의 x값
-				if (tempX > player.getX() - 60 && tempX <= face) { // 발판이 캐릭 범위 안이라면
-					tempField = fieldList.get(i).getY(); // 발판의 y값을 tempField에 저장한다
-					foot = player.getY() + player.getImage().getHeight(null); // 캐릭터 발 위치 재스캔
-					// 발판위치가 tempNowField보다 높고, 발바닥 보다 아래 있다면
-					// 즉, 캐릭터 발 아래에 제일 높이 있는 발판이라면 tempNowField에 저장한다.
-					if (tempField < tempNowField && tempField >= foot) {
-						tempNowField = tempField;
-					}
+		for (int i = 0; i < fieldList.size(); i++) { // 발판의 개수만큼 반복
+			int tempX = fieldList.get(i).getX(); // 발판의 x값
+			if (tempX > player.getX() - 60 && tempX <= face) { // 발판이 캐릭 범위 안이라면
+				tempField = fieldList.get(i).getY(); // 발판의 y값을 tempField에 저장한다
+				foot = player.getY() + player.getImage().getHeight(null); // 캐릭터 발 위치 재스캔
+				// 발판위치가 tempNowField보다 높고, 발바닥 보다 아래 있다면
+				// 즉, 캐릭터 발 아래에 제일 높이 있는 발판이라면 tempNowField에 저장한다.
+				if (tempField < tempNowField && tempField >= foot) {
+					tempNowField = tempField;
 				}
 			}
-			field = tempNowField; // 결과를 field에 업데이트 한다.
-			player.setField(this.field);
-		}else if(cp==2) {
-			for (int j = 0; j < monster.getMonsterList().size(); j++) {
-				MonsterThread m = monster.getMonsterList().get(j);
-				int face = m.getX() + m.getImage().getWidth(null); // 몬스터 정면 위치 재스캔
-				int foot = m.getY() + m.getImage().getHeight(null); // 몬스터 발 위치 재스캔
-				// 몬스터가 밟을 발판을 계산하는 코드
-				
-				int tempField; // 발판위치를 계속 스캔하는 지역변수
-				int tempNowField=2000; // 몬스터와 발판의 높이에 따라 저장되는 지역변수, 결과를 field에 저장한다
-				
-				for (int i = 0; i < fieldList.size(); i++) { // 발판의 개수만큼 반복
-					int tempX = fieldList.get(i).getX(); // 발판의 x값
-					if (tempX > m.getX() - 60 && tempX <= face) { // 발판이 몬스터 범위 안이라면
-						tempField = fieldList.get(i).getY(); // 발판의 y값을 tempField에 저장한다
-						foot = m.getY() + m.getImage().getHeight(null); // 몬스터 발 위치 재스캔
-						// 발판위치가 tempNowField보다 높고, 발바닥 보다 아래 있다면
-						// 즉, 캐릭터 발 아래에 제일 높이 있는 발판이라면 tempNowField에 저장한다.
-						if (tempField < tempNowField && tempField >= foot) {
-							tempNowField = tempField;
-						}
-					}
-				}
-				m.setField(tempNowField);
-			}
+		field = tempNowField; // 결과를 field에 업데이트 한다.
+		player.setField(this.field);
 		}
 	}// end of setCpField(int cp)
-		
-	public void monsterSpawn() {
-		monster.addMonster();
-		nowMonster++;
-	}
 }

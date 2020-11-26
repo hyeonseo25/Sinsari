@@ -37,18 +37,20 @@ public class ProloguePanel extends JPanel{
 		nextbt.setFocusPainted(false);
 		nextbt.setContentAreaFilled(false);
 		nextbt.setBounds((view.width/2 - nextButton.getWidth(null)/2), 800, nextButton.getWidth(null), nextButton.getHeight(null));
+		
+		startbt = new JButton(new ImageIcon(startButton));
+		startbt.setName("GameStartButton");
+		startbt.setBorderPainted(false);
+		startbt.setFocusPainted(false);
+		startbt.setContentAreaFilled(false);
+		startbt.setBounds((view.width/2 - startButton.getWidth(null)/2), 800, startButton.getWidth(null), startButton.getHeight(null));
+		startbt.addMouseListener((MouseListener) o);
+		
 		nextbt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				page++;
 				if(page>=scene.length-1) {
-					startbt = new JButton(new ImageIcon(startButton));
-					startbt.setName("GameStartButton");
-					startbt.setBorderPainted(false);
-					startbt.setFocusPainted(false);
-					startbt.setContentAreaFilled(false);
-					startbt.setBounds((view.width/2 - startButton.getWidth(null)/2), 800, startButton.getWidth(null), startButton.getHeight(null));
-					startbt.addMouseListener((MouseListener) o);
 					add(startbt);
 					remove(nextbt);
 				}
