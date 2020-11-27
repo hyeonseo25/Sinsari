@@ -19,11 +19,12 @@ public class Player {
 	private int x;
 	private int y;
 	private int distance = 200; // 캐릭터가 이동한 총 거리
-	private int hp = 1000; // 체력
 	private int invincibility = 255; // 이미지 투명도
-	private int score = 0; // 점수
+	private int hp = 200;
+	private int item1 = 0;
+	private int item2 = 0;
+	private int item3 = 0;
 	private Image image;
-	private int cnt = 0; // 현재 캐릭터 이미지 설정하는 계수
 	private boolean fall = false; // 낙하 여부
 	private boolean jump = false; // 점프 여부
 	private int countJump = 0;
@@ -31,27 +32,6 @@ public class Player {
 	
 	private ImageIcon backImg = new ImageIcon("images/게임패널배경.png");
 	private Image back = backImg.getImage();
-	
-	private Image images[] = {new ImageIcon("images/Player/Player1.png").getImage()
-			,new ImageIcon("images/Player/Player1.png").getImage()
-			,new ImageIcon("images/Player/Player1.png").getImage()
-			,new ImageIcon("images/Player/Player1.png").getImage()
-			,new ImageIcon("images/Player/Player1.png").getImage()
-			,new ImageIcon("images/Player/Player2.png").getImage()
-			,new ImageIcon("images/Player/Player2.png").getImage()
-			,new ImageIcon("images/Player/Player2.png").getImage()
-			,new ImageIcon("images/Player/Player2.png").getImage()
-			,new ImageIcon("images/Player/Player2.png").getImage()
-			,new ImageIcon("images/Player/Player3.png").getImage()
-			,new ImageIcon("images/Player/Player3.png").getImage()
-			,new ImageIcon("images/Player/Player3.png").getImage()
-			,new ImageIcon("images/Player/Player3.png").getImage()
-			,new ImageIcon("images/Player/Player3.png").getImage()
-			,new ImageIcon("images/Player/Player4.png").getImage()
-			,new ImageIcon("images/Player/Player4.png").getImage()
-			,new ImageIcon("images/Player/Player4.png").getImage()
-			,new ImageIcon("images/Player/Player4.png").getImage()
-			,new ImageIcon("images/Player/Player4.png").getImage()};
 	
 	public boolean isFall() {
 		return fall;
@@ -85,6 +65,38 @@ public class Player {
 		this.countJump = countJump;
 	}
 	
+	public int getHp() {
+		return hp;
+	}
+	
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	
+	public int getItem1() {
+		return item1;
+	}
+
+	public void setItem1(int item1) {
+		this.item1 = item1;
+	}
+
+	public int getItem2() {
+		return item2;
+	}
+
+	public void setItem2(int item2) {
+		this.item2 = item2;
+	}
+
+	public int getItem3() {
+		return item3;
+	}
+
+	public void setItem3(int item3) {
+		this.item3 = item3;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -117,22 +129,6 @@ public class Player {
 		this.distance = distance;
 	}
 	
-	public int getHp() {
-		return hp;
-	}
-	
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
-	
-	public int getScore() {
-		return score;
-	}
-	
-	public void setScore(int score) {
-		this.score = score;
-	}
-	
 	public Image getImage() {
 		return image;
 	}
@@ -143,54 +139,35 @@ public class Player {
 	
 	//player 오른쪽으로 이동 (key)
 	public void p_moveRight() {
-//		if(cnt == images.length) {
-//			cnt = 0;
-//		}
-//		cnt++;
 			x += 15;
 			distance += 15;	
 	}
 	
 	// 화면 중간에서 오른쪽 이동(key)
 	public void p_moveRight(int num) {
-//		if(cnt == images.length) {
-//			cnt = 0;
-//		}
-//		setImage(images[cnt]);
-//		cnt++;
 		distance += 10;
 	}
 	
 	// 데미지 받을 때 
-	public void damaged(int damage) {
-		if(invincibility == 255) { //투명도가 255일때
-			Sound("music/hitSound.wav", false);
-			Sound("music/ouchSound.wav", false);
-			invincibility = 80;
-			this.hp -= damage;
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						//투명도를 바꾸어준다. 
-						Thread.sleep(500);
-						invincibility=254;
-						Thread.sleep(500);
-						invincibility=80;
-						Thread.sleep(500);
-						invincibility=254;
-						Thread.sleep(500);
-						invincibility=80;
-						Thread.sleep(500);
-						invincibility=255;
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+		public void damaged() {
+			Sound("music/dieMusic.wav", false);
+			if(invincibility == 255) { //투명도가 255일때
+				invincibility = 80;
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							//투명도를 바꾸어준다. 
+							Thread.sleep(500);
+							invincibility=255;
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
-				}
-			}).start();
+				}).start();
+			}
 		}
-	}
-	
+		
 	// 필드로 떨어지는 메서드 
 	public void fall() {
 		new Thread(new Runnable() {
@@ -294,7 +271,6 @@ public class Player {
 		setX(200);
 		setY(300);
 		setDistance(200);
-		setScore(0);
 		setInvincibility(255);
 		setImage(new ImageIcon("images/Player/Player.gif").getImage());
 	}

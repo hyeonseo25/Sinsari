@@ -25,7 +25,7 @@ public class StartPanel extends JPanel{
 	private Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public StartPanel(Object o) {
-		Image startButton = new ImageIcon("images/buttons/StartButton.png").getImage();
+		Image startButton = new ImageIcon("images/buttons/GameStartButton.png").getImage();
 		Image exitButton = new ImageIcon("images/buttons/ExitButton.png").getImage();
 		
 		exitbt = new JButton(new ImageIcon("images/buttons/ExitButton.png"));
@@ -37,12 +37,12 @@ public class StartPanel extends JPanel{
 		exitbt.addMouseListener((MouseListener) o);
 		add(exitbt);
 		
-		startbt = new JButton(new ImageIcon("images/buttons/StartButton.png"));
+		startbt = new JButton(new ImageIcon("images/buttons/GameStartButton.png"));
 		startbt.setName("StartButton");
 		startbt.setBorderPainted(false);
 		startbt.setFocusPainted(false);
 		startbt.setContentAreaFilled(false);
-		startbt.setBounds((view.width/2 - startButton.getWidth(null)/2), 800, startButton.getWidth(null), startButton.getHeight(null));		
+		startbt.setBounds((view.width/2 - startButton.getWidth(null)/2), 750, startButton.getWidth(null), startButton.getHeight(null));		
 		startbt.addMouseListener((MouseListener) o);
 		add(startbt);
 		

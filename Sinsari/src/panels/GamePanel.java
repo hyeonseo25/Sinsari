@@ -26,7 +26,6 @@ import javax.swing.JPanel;
 
 import components.Player;
 import components.Field;
-import components.Tacle;
 import components.Item;
 import main.Main;
 import util.Util;
@@ -34,7 +33,7 @@ import util.Util;
 public class GamePanel extends JPanel{
 	
 	// 점수 뒷 배경
-	private ImageIcon textBackImage2 = new ImageIcon("images/backImage2.png");
+	private ImageIcon textBackImage2 = new ImageIcon("images/점수배경.png");
 	private Image textBackImg2 = textBackImage2.getImage();
 	
 	private Clip backgroundMusic;
@@ -43,25 +42,25 @@ public class GamePanel extends JPanel{
 	private ImageIcon backImg = new ImageIcon("images/게임패널배경.png");
 	private Image back = backImg.getImage();
 	
-	//체력 이미지
-	private ImageIcon hpImg = new ImageIcon("images/HP.png");
-	private Image hp = hpImg.getImage();
+//	//체력 이미지
+//	private ImageIcon hpImg = new ImageIcon("images/HP.png");
+//	private Image hp = hpImg.getImage();
 	
 	// 발판 이미지 아이콘들
 	private ImageIcon field1Ic = new ImageIcon("images/map/발판.png"); // 발판
 	private ImageIcon field2Ic = new ImageIcon("images/map/공중발판.png"); // 공중발판
-
-	// 장애물 이미지 아이콘들
-	private ImageIcon tacle10Ic = new ImageIcon("images/map/무당벌레장애물.gif"); // 1칸 장애물
 	
 	// 피격시 붉은 화면
 	private ImageIcon redBg = new ImageIcon("images/map/redBg.png"); 
 	
 	// 아이템 이미지 아이콘들
-	private ImageIcon item1Ic = new ImageIcon("images/map/머스캣드링크.png");
-	private ImageIcon item2Ic = new ImageIcon("images/map/찐만두.png");
-	private ImageIcon item3Ic = new ImageIcon("images/map/포켓치킨.png");
-	private ImageIcon itemHPIc = new ImageIcon("images/HP.png");
+	private ImageIcon item1Ic = new ImageIcon("images/map/떡.png");
+	private ImageIcon item2Ic = new ImageIcon("images/map/어묵.png");
+	private ImageIcon item3Ic = new ImageIcon("images/map/고추장.png");
+	
+	private Image item1Im = item1Ic.getImage();
+	private Image item2Im = item2Ic.getImage();
+	private Image item3Im = item3Ic.getImage();
 	
 	// 화면 사이즈 받아오기 
 	private Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
@@ -73,7 +72,6 @@ public class GamePanel extends JPanel{
 	// 리스트 생성
 	private List<Item> itemList; // 아이템 리스트
 	private List<Field> fieldList; // 발판 리스트
-	private List<Tacle> tacleList; // 장애물 리스트
 	
 	// 이미지 파일로 된 맵을 가져온다.
 	private int[] sizeArr; // 이미지의 넓이와 높이를 가져오는 1차원 배열
@@ -88,20 +86,12 @@ public class GamePanel extends JPanel{
 	private CardLayout cl;
 	private Main main;
 	
-	public String getScore1() {
-		return Integer.toString(player.getScore());
-	}
-	
 	public int getField() {
 		return field;
 	}
 
 	public void setField(int field) {
 		this.field = field;
-	}
-	
-	public String getScore() {
-		return Integer.toString(player.getScore()) + "점";
 	}
 
 	public int getHp() {
@@ -141,7 +131,6 @@ public class GamePanel extends JPanel{
 	private void initMap(int num) {
 		itemList = new ArrayList<>(); // 아이템 리스트
 		fieldList = new ArrayList<>(); // 발판 리스트
-		tacleList = new ArrayList<>(); // 장애물 리스트
 		
 		String tempMap = null;
 		
@@ -174,9 +163,6 @@ public class GamePanel extends JPanel{
 					// 좌표에 40을 곱하고, 넓이와 높이는 70으로 한다.
 					itemList.add(new Item(item3Ic.getImage(), i * 40, j * 40, 70, 70));
 
-				}else if (colorArr[i][j] == 2273612) { // 색값이 2273612일 경우 Hp 회복 물약 생성
-					// 좌표에 40을 곱하고, 넓이와 높이는 70으로 한다.
-					itemList.add(new Item(itemHPIc.getImage(), i * 40, j * 40, 70, 70));
 				}
 			} // end of for j
 		} //end of for i
@@ -192,16 +178,7 @@ public class GamePanel extends JPanel{
 					fieldList.add(new Field(field2Ic.getImage(), i*40 , j * 40, 80, 80));
 				}
 			}
-		} // end of for i
-
-		for (int i = 0; i < maxX; i += 2) { // 장애물은 4칸을 차지하는 공간이기 때문에 2,2사이즈로 반복문을 돌린다.
-			for (int j = 0; j < maxY; j += 2) {
-				if (colorArr[i][j] == 15539236) { // 색값이 15539236일 경우 (빨간색) 1칸
-					// 좌표에 40을 곱하고, 넓이와 높이는 80으로 한다.
-					tacleList.add(new Tacle(tacle10Ic.getImage(), i * 40 , j * 40, 80, 80));
-				}
-			}
-		} // end of for i
+		} 
 		
 	}
 	
@@ -273,7 +250,11 @@ public class GamePanel extends JPanel{
 				while(true) {
 					try {
 						if(player.getDistance()>end) {
-							clear();
+							if(player.getItem1()>=10&&player.getItem2()>=2&&player.getItem3()>=2) {
+								clear();
+							}else{
+								gameOver();
+							}
 							break;
 						}
 						if(player.getHp()<=0) {
@@ -307,6 +288,7 @@ public class GamePanel extends JPanel{
 					try {
 						keyCheck();
 						if(player.getY() - player.getImage().getHeight(null)>1100) {
+							player.damaged();
 							player.setHp(0);
 						}
 						if(player.getHp()<=0) {
@@ -334,11 +316,6 @@ public class GamePanel extends JPanel{
 			g.drawImage(player.getImage(), player.getX(), player.getY(), this);
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255));
 			
-			// 체력 그리기 
-			for(int i=0; i<player.getHp()/200; i++) {
-				g.drawImage(hp, 10+i*70, 10, this);
-			}
-			
 			if (player.getInvincibility() == 80) {
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 125 / 255));
 				g.drawImage(redBg.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
@@ -361,21 +338,28 @@ public class GamePanel extends JPanel{
 					g.drawImage(tempitem.getImage(), tempitem.getX(), tempitem.getY(), tempitem.getWidth(), tempitem.getHeight(), null);
 				}
 			}
+			g.drawImage(textBackImg2, 1650, 11, 250, 300,  this);
 			
-			// 장애물 그리기 
-			for (int i = 0; i < tacleList.size(); i++) {
-				Tacle tempTacle = tacleList.get(i);
-				if (tempTacle.getX() > -90 && tempTacle.getX() < view.getWidth()) {
-					g.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY(), tempTacle.getWidth(), tempTacle.getHeight(), null);
-				}
-			}
-			
-			// 글씨 잘보이게 하기 위한 흰 뒷 배경
-			g.drawImage(textBackImg2, 1685, 11, this);
+			g.drawImage(player.getImage(), player.getX(), player.getY(), this);
+			g.drawImage(item1Im, 1800, 30, 80, 80, this);
+			g.drawImage(item2Im, 1800, 120, 80, 80, this);
+			g.drawImage(item3Im, 1800, 210, 80, 80, this);
 			
 			Font font = new Font("돋움", Font.BOLD, 40);
 			g.setFont(font);  //타이머 글씨체
-			g.drawString(getScore(), 1750, 50); // 점수 그리기
+			g.drawString(Integer.toString(player.getItem1()), 1670, 80); // 1번아이템
+			g.drawString(Integer.toString(player.getItem2()), 1670, 170); // 2번아이템
+			g.drawString(Integer.toString(player.getItem3()), 1670, 260); // 3번아이템
+			
+			g.drawString("/10", 1720, 80); // 1번아이템
+			g.drawString("/10", 1720, 170); // 2번아이템
+			g.drawString("/10", 1720, 260); // 3번아이템
+//			// 글씨 잘보이게 하기 위한 흰 뒷 배경
+//			g.drawImage(textBackImg2, 1685, 11, this);
+			
+//			Font font = new Font("돋움", Font.BOLD, 40);
+//			g.setFont(font);  //타이머 글씨체
+//			g.drawString(getScore(), 1750, 50); // 점수 그리기
 		}
 		
 		// 게임 오브젝트 배치 
@@ -383,25 +367,6 @@ public class GamePanel extends JPanel{
 			int face = player.getX() + player.getImage().getWidth(null); // 캐릭터 정면 위치 재스캔
 			int foot = player.getY() + player.getImage().getHeight(null); // 캐릭터 발 위치 재스캔
 			
-			for (int i = 0; i < tacleList.size(); i++) {
-				Tacle tempTacle = tacleList.get(i); // 임시 변수에 리스트 안에 있는 개별 장애물을 불러오자
-				if ( // 무적상태가 아니고 캐릭터의 범위 안에 장애물이 있으면 부딛힌다
-						player.getInvincibility() == 255
-							&& tempTacle.getX() + tempTacle.getWidth() / 2 >= player.getX()
-							&& tempTacle.getX() + tempTacle.getWidth() / 2 <= face
-							&& tempTacle.getY() + tempTacle.getHeight() / 2 >= player.getY()
-							&& tempTacle.getY() + tempTacle.getHeight() / 2 <= foot) {
-						player.damaged(200);
-	
-					} else if ( // 공중장애물
-						player.getInvincibility() == 255
-							&& tempTacle.getX() + tempTacle.getWidth() / 2 >= player.getX()
-							&& tempTacle.getX() + tempTacle.getWidth() / 2 <= face
-							&& tempTacle.getY() <= player.getY()
-							&& tempTacle.getY() + tempTacle.getHeight() * 95 / 100 > player.getY()) {
-						player.damaged(200);
-					}
-			}
 			for (int i = 0; i < itemList.size(); i++) {
 				Item tempitem = itemList.get(i); // 임시 변수에 리스트 안에 있는 개별 아이템을 불러오자
 				if ( // 캐릭터의 범위 안에 아이템이 있으면 아이템을 먹는다.
@@ -413,17 +378,13 @@ public class GamePanel extends JPanel{
 					if(tempitem.getImage()!=null) {
 						if(tempitem.getImage()==item1Ic.getImage()) {
 							Sound("music/eatItemSound.wav", false);
-							player.setScore(player.getScore()+30); // 총점수에 젤리 점수를 더한다
+							player.setItem1(player.getItem1()+1);
 						}else if(tempitem.getImage()==item2Ic.getImage()) {
 							Sound("music/eatItemSound.wav", false);
-							player.setScore(player.getScore()+100); // 총점수에 젤리 점수를 더한다
-						}else if (tempitem.getImage() == itemHPIc.getImage()) {
-							Sound("music/eatHpSound.wav", false);
-							if ((player.getHp() + 200) > 1000) {
-								player.setScore(player.getScore()+100);
-							} else {
-								player.setHp(player.getHp() + 200);
-							}
+							player.setItem2(player.getItem2()+1);
+						}else if(tempitem.getImage()==item3Ic.getImage()) {
+							Sound("music/eatItemSound.wav", false);
+							player.setItem3(player.getItem3()+1);
 						}
 						tempitem.setImage(null); // 아이템의 이미지를 이펙트로 바꾼다
 					}
@@ -455,20 +416,10 @@ public class GamePanel extends JPanel{
 				tempField.setX(tempField.getX() - 10); // 위 조건에 해당이 안되면 x좌표를 줄이자
 			}
 		}
-		// 장애물위치를 - 4 씩 해준다.
-		for (int i = 0; i < tacleList.size(); i++) {
-			Tacle tempTacle = tacleList.get(i); // 임시 변수에 리스트 안에 있는 개별 장애물을 불러오자
-			if (tempTacle.getX() < -90) {
-				tacleList.remove(tempTacle); // 장애물의 x 좌표가 -90 미만이면 해당 젤리를 제거한다.(최적화)
-			} else {
-				tempTacle.setX(tempTacle.getX() - 10); // 위 조건에 해당이 안되면 x좌표를 줄이자
-			}
-		}
 	}
 	
 	public void gameOver() {
 		closeMusic();
-		Sound("music/dieMusic.wav", false);
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
@@ -489,9 +440,6 @@ public class GamePanel extends JPanel{
 			e.printStackTrace();
 		}
 		main.getClearPanel().playMusic();
-		main.getClearPanel().setName("이름을 입력해주세요");
-		player.setScore(player.getScore()+player.getHp()/200*100);
-		//main.getClearPanel().setScore(player.getScore());
 		cl.show(frame.getContentPane(), "clear");
 		frame.requestFocus();
 	}
