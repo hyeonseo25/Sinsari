@@ -79,7 +79,7 @@ public class GamePanel extends JPanel{
 	private int[] sizeArr; // 이미지의 넓이와 높이를 가져오는 1차원 배열
 	private int[][] colorArr; // 이미지의 x y 좌표의 픽셀 색값을 저장하는 2차원배열
 		
-	private int end = back.getWidth(null)-(view.width-1660); // 도착지
+	private int end = back.getWidth(null); // 도착지
 	
 	private Player player;
 	

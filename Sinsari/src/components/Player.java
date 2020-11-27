@@ -147,10 +147,8 @@ public class Player {
 //			cnt = 0;
 //		}
 //		cnt++;
-		if(distance < back.getWidth(null)-130) {
 			x += 15;
-			distance += 15;
-		}		
+			distance += 15;	
 	}
 	
 	// 화면 중간에서 오른쪽 이동(key)
