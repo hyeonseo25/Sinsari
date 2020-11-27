@@ -42,9 +42,9 @@ public class GamePanel extends JPanel{
 	private ImageIcon backImg = new ImageIcon("images/게임패널배경.png");
 	private Image back = backImg.getImage();
 	
-//	//체력 이미지
-//	private ImageIcon hpImg = new ImageIcon("images/HP.png");
-//	private Image hp = hpImg.getImage();
+	//패널 배경
+	private ImageIcon backImg2 = new ImageIcon("images/게임패널배경2.jpg");
+	private Image back2 = backImg2.getImage();
 	
 	// 발판 이미지 아이콘들
 	private ImageIcon field1Ic = new ImageIcon("images/map/발판.png"); // 발판
@@ -309,7 +309,7 @@ public class GamePanel extends JPanel{
 		public void paintComponent(Graphics g) {
 			// TODO Auto-generated method stub
 			super.paintComponent(g);
-			g.drawImage(back, backX, 0, this);
+			g.drawImage(back2, backX, 0, this);
 			
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) player.getInvincibility()/255));
