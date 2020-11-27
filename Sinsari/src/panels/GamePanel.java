@@ -213,7 +213,7 @@ public class GamePanel extends JPanel{
 			e.printStackTrace();
 		}
 		/*
-		 * 📢BGM
+		 * 저작권 출처
 			✔️Track - PerituneMaterial - Holiday4
 			✔️Soundcloud - https://soundcloud.com/sei_peridot
 			✔️나눔뮤직 - https://tv.naver.com/v/11875470
