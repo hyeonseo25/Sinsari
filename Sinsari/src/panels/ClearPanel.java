@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class ClearPanel extends JPanel{
 	private JButton replaybt;
 	
-	private ImageIcon backImg = new ImageIcon("images/게임오버패널배경.png");
+	private ImageIcon backImg = new ImageIcon("images/클리어패널배경.png");
 	private Image back = backImg.getImage();
 	
 	private Clip backgroundMusic;

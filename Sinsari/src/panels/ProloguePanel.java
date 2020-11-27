@@ -9,7 +9,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -31,6 +35,7 @@ public class ProloguePanel extends JPanel{
 			,new ImageIcon("images/prologue/프롤로그9.PNG").getImage()
 			,new ImageIcon("images/prologue/프롤로그10.PNG").getImage()};
 	
+	private Clip backgroundMusic;
 	Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public ProloguePanel(Object o) {
@@ -66,7 +71,22 @@ public class ProloguePanel extends JPanel{
 		});
 		add(nextbt);
 	}
+	public void playMusic() {
+		 try {
+			 File file = new File("music/gameOverMusic.wav");
+			 AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+			 backgroundMusic = AudioSystem.getClip();
+			 backgroundMusic.open(stream);
+			 backgroundMusic.start();
+			 backgroundMusic.loop(-1);
+	     } catch(Exception e) {
+	    	 e.printStackTrace();
+	     }	
+	}
 	
+	public void closeMusic() {
+		backgroundMusic.close();
+	}	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

@@ -48,7 +48,7 @@ public class Main extends ListenerAdapter{
 	private void init() {
 		frame = new JFrame();
 		frame.setTitle("달토끼의 떡볶이"); // 프로그램 이름 지정
-		//frame.setUndecorated(true);
+		frame.setUndecorated(true);
 		frame.setVisible(true); // 창 보이게하기
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // 전체화면
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 엑스버튼을 누르면 종료
@@ -92,7 +92,9 @@ public class Main extends ListenerAdapter{
 			cl.show(frame.getContentPane(), "prologue"); // prologue패널을 카드레이아웃 최상단으로 변경
 			prologuePanel.requestFocus(); // 리스너를 prologue패널에 강제로 줌
 			startPanel.closeMusic();
-		} else if (e.getComponent().getName().equals("GameStartButton")) { // GameoverButton이라는 이름을 가진 버튼을 눌렀다면
+			prologuePanel.playMusic();
+		} else if (e.getComponent().getName().equals("GameStartButton")) { // GameStartButton이라는 이름을 가진 버튼을 눌렀다면
+			prologuePanel.closeMusic();
 			frame.getContentPane().remove(gamePanel); // 방금 했던 게임 패널을 프레임에서 삭제
 			gamePanel = new GamePanel(this, frame, cl); // 새 게임 패널 생성
 			gamePanel.setLayout(null);
