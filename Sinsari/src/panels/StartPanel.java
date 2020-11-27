@@ -60,7 +60,10 @@ public class StartPanel extends JPanel{
 			 backgroundMusic.loop(-1);
 	     } catch(Exception e) {
 	    	 e.printStackTrace();
-	     }	
+	     }
+		 /*
+		  * Music Copyright ¨Ï 2019 Tido Kang All Rights Reserved.
+		  */
 	}
 	
 	public void closeMusic() {
