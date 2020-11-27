@@ -31,7 +31,7 @@ public class GameOverPanel extends JPanel{
 		replaybt.setBorderPainted(false);
 		replaybt.setFocusPainted(false);
 		replaybt.setContentAreaFilled(false);
-		replaybt.setBounds((view.width/2 - replaybtn.getWidth(null)/2), 700, replaybtn.getWidth(null), replaybtn.getHeight(null));	
+		replaybt.setBounds(1200, 700, replaybtn.getWidth(null), replaybtn.getHeight(null));	
 		replaybt.addMouseListener((MouseListener) o);
 		add(replaybt);
 	}

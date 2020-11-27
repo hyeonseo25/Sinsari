@@ -24,14 +24,14 @@ public class ClearPanel extends JPanel{
 	private Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public ClearPanel(Object o) {
-		Image replaybtn = new ImageIcon("images/buttons/ClearPanelButton.png").getImage();
+		Image replaybtn = new ImageIcon("images/buttons/RestartButton.png").getImage();
 		
-		replaybt = new JButton(new ImageIcon("images/buttons/ClearPanelButton.png"));
+		replaybt = new JButton(new ImageIcon("images/buttons/RestartButton.png"));
 		replaybt.setName("ClearReplayButton");
 		replaybt.setBorderPainted(false);
 		replaybt.setFocusPainted(false);
 		replaybt.setContentAreaFilled(false);
-		replaybt.setBounds((view.width/2 - replaybtn.getWidth(null)/2), 700, replaybtn.getWidth(null), replaybtn.getHeight(null));	
+		replaybt.setBounds(1200, 700, replaybtn.getWidth(null), replaybtn.getHeight(null));	
 		replaybt.addMouseListener((MouseListener) o);
 		add(replaybt);
 	}
