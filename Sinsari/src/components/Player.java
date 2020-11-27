@@ -150,7 +150,7 @@ public class Player {
 	
 	// 데미지 받을 때 
 		public void damaged() {
-			Sound("music/dieMusic.wav", false);
+			Sound("music/hitSound.wav", false);
 			if(invincibility == 255) { //투명도가 255일때
 				invincibility = 80;
 				new Thread(new Runnable() {

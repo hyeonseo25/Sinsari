@@ -427,7 +427,7 @@ public class GamePanel extends JPanel{
 	public void gameOver() {
 		closeMusic();
 		try {
-			TimeUnit.SECONDS.sleep(3);
+			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
