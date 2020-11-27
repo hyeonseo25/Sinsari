@@ -80,7 +80,7 @@ public class Main extends ListenerAdapter{
 		cl.show(frame.getContentPane(), "start"); // start패널을 카드레이아웃 최상단으로 변경
 		startPanel.requestFocus(); // 리스너를 start패널에 강제로 줌
 	}
-	
+	 
 	@Override
 	public void mousePressed(MouseEvent e) { // mouseClicked로 변경가능
 			
