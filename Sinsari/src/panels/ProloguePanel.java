@@ -24,16 +24,16 @@ public class ProloguePanel extends JPanel{
 	
 	private int page = 0;
 	
-	private Image scene[] = {new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×1.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×2.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×3.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×4.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×5.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×6.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×7.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×8.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×9.PNG").getImage()
-			,new ImageIcon("images/prologue/ÇÁ·Ñ·Î±×10.PNG").getImage()};
+	private Image scene[] = {new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸1.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸2.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸3.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸4.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸5.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸6.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸7.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸8.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸9.PNG").getImage()
+			,new ImageIcon("images/prologue/í”„ë¡¤ë¡œê·¸10.PNG").getImage()};
 	
 	private Clip backgroundMusic;
 	Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
@@ -82,6 +82,13 @@ public class ProloguePanel extends JPanel{
 	     } catch(Exception e) {
 	    	 e.printStackTrace();
 	     }	
+		 /*
+		  * Track : HEMIO - ì¢…ì´ì ‘ê¸°
+			Music by Hemio
+			Follow Artist : https://www.youtube.com/user/FVGozak
+			Music Promoted by DayDreamSound https://youtu.be/NsvVEh8K0SM
+			ğŒğ®ğ¬ğ¢ğœ ğğ¥ğšğ²ğ¥ğ¢ğ¬ğ­ : https://youtu.be/cKF2tz31j2U
+		  */
 	}
 	
 	public void closeMusic() {
