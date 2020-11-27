@@ -250,7 +250,7 @@ public class GamePanel extends JPanel{
 				while(true) {
 					try {
 						if(player.getDistance()>end) {
-							if(player.getItem1()>=10&&player.getItem2()>=2&&player.getItem3()>=2) {
+							if(player.getItem1()>=10&&player.getItem2()>=10&&player.getItem3()>=10) {
 								clear();
 							}else{
 								gameOver();
