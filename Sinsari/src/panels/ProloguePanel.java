@@ -20,30 +20,37 @@ public class ProloguePanel extends JPanel{
 	
 	private int page = 0;
 	
-	private Image scene[] = {new ImageIcon("images/prologue/프롤로그1.png").getImage()
-			,new ImageIcon("images/prologue/프롤로그2.png").getImage()
-			,new ImageIcon("images/prologue/프롤로그3.png").getImage()};
+	private Image scene[] = {new ImageIcon("images/prologue/프롤로그1.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그2.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그3.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그4.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그5.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그6.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그7.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그8.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그9.PNG").getImage()
+			,new ImageIcon("images/prologue/프롤로그10.PNG").getImage()};
 	
 	Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public ProloguePanel(Object o) {
 		page = 0;
 		Image nextButton = new ImageIcon("images/buttons/ArrowButton.png").getImage();
-		Image startButton = new ImageIcon("images/buttons/StartButton.png").getImage();
+		Image startButton = new ImageIcon("images/buttons/GameStartButton.png").getImage();
 		
 		nextbt = new JButton(new ImageIcon(nextButton));
 		nextbt.setName("NextButton");
 		nextbt.setBorderPainted(false);
 		nextbt.setFocusPainted(false);
 		nextbt.setContentAreaFilled(false);
-		nextbt.setBounds((view.width/2 - nextButton.getWidth(null)/2), 800, nextButton.getWidth(null), nextButton.getHeight(null));
+		nextbt.setBounds(1500, 750, nextButton.getWidth(null), nextButton.getHeight(null));
 		
 		startbt = new JButton(new ImageIcon(startButton));
 		startbt.setName("GameStartButton");
 		startbt.setBorderPainted(false);
 		startbt.setFocusPainted(false);
 		startbt.setContentAreaFilled(false);
-		startbt.setBounds((view.width/2 - startButton.getWidth(null)/2), 800, startButton.getWidth(null), startButton.getHeight(null));
+		startbt.setBounds((view.width/2 - startButton.getWidth(null)/2), 720, startButton.getWidth(null), startButton.getHeight(null));
 		startbt.addMouseListener((MouseListener) o);
 		
 		nextbt.addMouseListener(new MouseAdapter() {
