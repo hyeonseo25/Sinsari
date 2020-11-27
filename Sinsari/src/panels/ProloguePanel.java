@@ -73,7 +73,7 @@ public class ProloguePanel extends JPanel{
 	}
 	public void playMusic() {
 		 try {
-			 File file = new File("music/gameOverMusic.wav");
+			 File file = new File("music/prologueMusic.wav");
 			 AudioInputStream stream = AudioSystem.getAudioInputStream(file);
 			 backgroundMusic = AudioSystem.getClip();
 			 backgroundMusic.open(stream);
