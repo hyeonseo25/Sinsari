@@ -38,7 +38,7 @@ public class ClearPanel extends JPanel{
 
 	public void playMusic() {
 		 try {
-			 File file = new File("music/gameOverMusic.wav");
+			 File file = new File("music/clearPanelMusic.wav");
 			 AudioInputStream stream = AudioSystem.getAudioInputStream(file);
 			 backgroundMusic = AudioSystem.getClip();
 			 backgroundMusic.open(stream);
