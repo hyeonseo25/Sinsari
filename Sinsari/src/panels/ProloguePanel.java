@@ -36,7 +36,7 @@ public class ProloguePanel extends JPanel{
 			,new ImageIcon("images/prologue/프롤로그10.PNG").getImage()};
 	
 	private Clip backgroundMusic;
-	Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
+	private Dimension view = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public ProloguePanel(Object o) {
 		page = 0;
