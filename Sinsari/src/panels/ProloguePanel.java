@@ -82,8 +82,7 @@ public class ProloguePanel extends JPanel{
 	     } catch(Exception e) {
 	    	 e.printStackTrace();
 	     }	
-		 /*
-		  * Track : HEMIO - 종이접기
+		  /* Track : HEMIO - 종이접기
 			Music by Hemio
 			Follow Artist : https://www.youtube.com/user/FVGozak
 			Music Promoted by DayDreamSound https://youtu.be/NsvVEh8K0SM
